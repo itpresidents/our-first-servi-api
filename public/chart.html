@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>Chart of ITP Sleepiness</title>
+  <style>
+    .bar {
+      height: 50px;
+      background-color: blue;
+    }
+  </style>  
+ </head>
+ <body>
+  
+  <div id="chartContainer">
+  </div>
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+ </body>
+ 
+ <script>
+   
+    // on page load, call createChart function
+     window.addEventListener('load',createChart());
+     
+     function createChart(){
+       
+       // call our own API route, and get JSON back!
+  	  jQuery.ajax({
+  	      url : '/get-api-data',
+  	      dataType : 'json',
+  	      type : 'GET',
+  	      success : function(response){
+  	        
+  	        console.log(response); // the data from our server
+
+          	var container = document.getElementById('chartContainer');
+            response.forEach(function(element) {
+            	console.log(element); // log out the element we're currently on
+            	container.innerHTML += '<h3>'+element.name+'</h3>' + 
+            	'<div class="bar" style="width:'+element.sleepyLevel * 10+'%"></div>';
+            }); 
+  	      },
+  	      error : function(err){
+  	      	alert("Something Went Wrong, Try Again!");
+  	      }
+  	  });     
+     
+   }
+   
+ </script>
+</html>
